@@ -13,7 +13,7 @@ def save_campaign(campaign: dict):
     path = os.path.join(CAMPAIGNS_DIR, f"{campaign['id']}.json")
     with open(path, "w") as f:
         json.dump(campaign, f, indent=2)
-    print(f"\n✅ Campaign saved to {path}")
+    print(f"\n Campaign saved to {path}")
 
 
 def load_campaign(campaign_id: str) -> dict | None:
@@ -44,7 +44,7 @@ def ask_ollama(messages: list[dict]) -> str:
 # ── Campaign generation ───────────────────────────────────────────────────────
 
 def generate_campaign(theme: str) -> dict:
-    print("\n⚔️  Generating your campaign... (this may take a minute)\n")
+    print("\n  Generating your campaign... (this may take a minute)\n")
 
     prompt = f"""You are an expert Dungeons & Dragons Dungeon Master. Generate a full D&D campaign based on this theme: "{theme}".
 
@@ -83,7 +83,7 @@ Include 3 factions, 4 NPCs, 3 quests, and 4 locations. Return only the JSON, no 
     try:
         campaign_data = json.loads(raw)
     except json.JSONDecodeError:
-        print("⚠️  Couldn't parse JSON cleanly, saving raw response.")
+        print("  Couldn't parse JSON cleanly, saving raw response.")
         campaign_data = {"name": theme, "raw": raw}
 
     campaign_id = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -100,7 +100,7 @@ Include 3 factions, 4 NPCs, 3 quests, and 4 locations. Return only the JSON, no 
 # ── DM Chat ───────────────────────────────────────────────────────────────────
 
 def dm_chat(campaign: dict):
-    print(f"\n🎲 You are now chatting with your DM for campaign: {campaign['name']}")
+    print(f"\n You are now chatting with your DM for campaign: {campaign['name']}")
     print("Type 'quit' to exit, 'save' to save, 'summary' to recap the campaign.\n")
 
     system_prompt = f"""You are an expert Dungeon Master running this D&D campaign:
@@ -135,7 +135,7 @@ Stay in character as a DM. Be descriptive, dramatic, and helpful. Answer questio
             save_campaign(campaign)
             continue
         elif user_input.lower() == "summary":
-            print(f"\n📜 Campaign: {campaign.get('name')}")
+            print(f"\n Campaign: {campaign.get('name')}")
             print(f"Setting: {campaign.get('setting')}")
             print(f"Backstory: {campaign.get('backstory')}\n")
             continue
@@ -157,7 +157,7 @@ Stay in character as a DM. Be descriptive, dramatic, and helpful. Answer questio
 
 def main():
     print("╔════════════════════════╗")
-    print("║   ⚔️   Pocket DM  🎲    ║")
+    print("║       Pocket DM        ║")
     print("╚════════════════════════╝\n")
 
     while True:
@@ -170,7 +170,7 @@ def main():
         if choice == "1":
             theme = input("Enter a campaign theme (e.g. 'dark fantasy', 'pirate adventure'): ").strip()
             campaign = generate_campaign(theme)
-            print(f"\n🌍 Campaign Generated: {campaign.get('name')}")
+            print(f"\n Campaign Generated: {campaign.get('name')}")
             print(f"Setting: {campaign.get('setting')}")
             print(f"\nOpening Scene:\n{campaign.get('opening_scene')}\n")
             save_campaign(campaign)
@@ -189,7 +189,7 @@ def main():
             cid = input("\nEnter campaign ID to load: ").strip()
             campaign = load_campaign(cid)
             if campaign:
-                print(f"\n✅ Loaded: {campaign['name']}")
+                print(f"\n Loaded: {campaign['name']}")
                 dm_chat(campaign)
             else:
                 print("Campaign not found.\n")
