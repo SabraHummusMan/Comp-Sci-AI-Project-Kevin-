@@ -6,9 +6,6 @@ from datetime import datetime
 CAMPAIGNS_DIR = "campaigns"
 os.makedirs(CAMPAIGNS_DIR, exist_ok=True)
 
-
-# ── JSON helpers ──────────────────────────────────────────────────────────────
-
 def save_campaign(campaign: dict):
     path = os.path.join(CAMPAIGNS_DIR, f"{campaign['id']}.json")
     with open(path, "w") as f:
@@ -33,15 +30,9 @@ def list_campaigns() -> list[dict]:
                 campaigns.append({"id": data["id"], "name": data["name"], "created": data["created"]})
     return campaigns
 
-
-# ── Ollama helpers ────────────────────────────────────────────────────────────
-
 def ask_ollama(messages: list[dict]) -> str:
     response = ollama.chat(model="llama3.2", messages=messages)
     return response["message"]["content"]
-
-
-# ── Campaign generation ───────────────────────────────────────────────────────
 
 def generate_campaign(theme: str) -> dict:
     print("\n  Generating your campaign... (this may take a minute)\n")
@@ -96,9 +87,6 @@ Include 3 factions, 4 NPCs, 3 quests, and 4 locations. Return only the JSON, no 
     }
     return campaign
 
-
-# ── DM Chat ───────────────────────────────────────────────────────────────────
-
 def dm_chat(campaign: dict):
     print(f"\n You are now chatting with your DM for campaign: {campaign['name']}")
     print("Type 'quit' to exit, 'save' to save, 'summary' to recap the campaign.\n")
@@ -151,9 +139,6 @@ Stay in character as a DM. Be descriptive, dramatic, and helpful. Answer questio
         campaign["chat_history"] = [m for m in messages if m["role"] != "system"]
 
     save_campaign(campaign)
-
-
-# ── Main menu ─────────────────────────────────────────────────────────────────
 
 def main():
     print("╔════════════════════════╗")
