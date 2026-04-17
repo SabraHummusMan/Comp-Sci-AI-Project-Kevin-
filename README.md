@@ -32,7 +32,6 @@ ollama pull llama3.2
 | Package | Purpose |
 |---------|---------|
 | `ollama` | Python client for communicating with Ollama |
-| `tkinter` | GUI window framework — **built into Python, no install needed** |
 
 Install the required package with:
 
